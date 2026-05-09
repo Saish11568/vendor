@@ -325,7 +325,7 @@ export default function CheckoutPage() {
                 {shippingOptions.map((option) => (
                   <button
                     key={option.id}
-                    className={`w-full p-4 rounded-lg border text-left transition-colors ?{
+                    className={`w-full p-4 rounded-lg border text-left transition-colors ${
                       selectedShipping === option.id
                         ? "border-primary bg-primary/5"
                         : "border-border hover:border-primary/50"
@@ -334,7 +334,7 @@ export default function CheckoutPage() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ?{
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                           selectedShipping === option.id ? "border-primary" : "border-muted-foreground/30"
                         }`}>
                           {selectedShipping === option.id && (

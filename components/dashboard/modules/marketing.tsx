@@ -65,9 +65,17 @@ export function MarketingModule({ onTabChange }: MarketingModuleProps) {
         fetch("/api/flash-sales"),
         fetch("/api/campaigns")
       ])
-      setCoupons(await couponsRes.json())
-      setFlashSales(await flashRes.json())
-      setCampaigns(await campaignsRes.json())
+      let couponsData = await couponsRes.json()
+      if (!Array.isArray(couponsData)) couponsData = []
+      setCoupons(couponsData)
+      
+      let flashData = await flashRes.json()
+      if (!Array.isArray(flashData)) flashData = []
+      setFlashSales(flashData)
+      
+      let campaignsData = await campaignsRes.json()
+      if (!Array.isArray(campaignsData)) campaignsData = []
+      setCampaigns(campaignsData)
     } catch (err) {
       console.error("Marketing fetch failed", err)
     } finally {

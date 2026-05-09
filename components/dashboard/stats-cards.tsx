@@ -23,7 +23,13 @@ export function StatsCards() {
   const [orders, setOrders] = useState<any[]>([])
 
   useEffect(() => {
-    fetch("/api/orders").then(res => res.json()).then(setOrders)
+    fetch("/api/orders").then(res => res.json()).then(data => {
+      if (Array.isArray(data)) {
+        setOrders(data)
+      } else {
+        setOrders([])
+      }
+    })
   }, [])
 
   const totalRevenue = orders.reduce((acc, o) => acc + (o.total || 0), 0)

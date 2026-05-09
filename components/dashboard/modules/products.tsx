@@ -49,7 +49,11 @@ export function ProductsModule() {
     fetch("/api/products")
       .then((res) => res.json())
       .then((data) => {
-        setProducts(data)
+        if (Array.isArray(data)) {
+          setProducts(data)
+        } else {
+          setProducts([])
+        }
         setLoading(false)
       })
   }, [])
@@ -154,8 +158,8 @@ export function ProductsModule() {
   }
 
   const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesFilter = filterCategory === "all" || product.category?.toLowerCase() === filterCategory.toLowerCase()
+    const matchesSearch = (product.name || "").toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesFilter = filterCategory === "all" || (product.category || "").toLowerCase() === filterCategory.toLowerCase()
     return matchesSearch && matchesFilter
   })
 
@@ -291,7 +295,7 @@ export function ProductsModule() {
             <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
               <div>
                 <p className="text-xs text-muted-foreground">Price</p>
-                <p className="text-lg font-bold text-foreground">₹{product.price.toFixed(2)}</p>
+                <p className="text-lg font-bold text-foreground">₹{(Number(product.price) || 0).toFixed(2)}</p>
               </div>
               <div className="text-right">
                 <p className="text-xs text-muted-foreground">Stock</p>
