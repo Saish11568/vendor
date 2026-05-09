@@ -495,7 +495,7 @@ export function CustomersModule() {
                 <Button
                   variant="outline"
                   className="flex-1 gap-2 rounded-xl"
-                  onClick={() => window.open(`mailto:${?subject=Hello from VendorHub&body=Hi ${,`, '_blank')}
+                  onClick={() => window.open(`mailto:${selectedCustomer.email}?subject=Hello from VendorHub&body=Hi ${selectedCustomer.name},`, '_blank')}
                 >
                   <Mail className="w-4 h-4" />
                   Email
@@ -520,7 +520,7 @@ export function CustomersModule() {
                         <p className="text-xs text-muted-foreground">{order.date}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-semibold text-foreground">${order.total.toFixed(2)}</p>
+                        <p className="text-sm font-semibold text-foreground">₹{order.total.toFixed(2)}</p>
                         <span className={cn(
                           "text-xs font-medium",
                           order.status === "delivered" ? "text-success" : "text-primary"

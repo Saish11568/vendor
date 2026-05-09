@@ -18,9 +18,9 @@ import {
 } from "lucide-react"
 
 const coupons = [
-  { code: "SAVE20", discount: "20% Off", description: "On orders above ?100", validUntil: "May 31, 2026", minOrder: 100 },
+  { code: "SAVE20", discount: "20% Off", description: "On orders above ₹100", validUntil: "May 31, 2026", minOrder: 100 },
   { code: "FREESHIP", discount: "Free Shipping", description: "On all orders", validUntil: "Jun 15, 2026", minOrder: 0 },
-  { code: "FIRST50", discount: "?50 Off", description: "First order only", validUntil: "Dec 31, 2026", minOrder: 200 },
+  { code: "FIRST50", discount: "₹50 Off", description: "First order only", validUntil: "Dec 31, 2026", minOrder: 200 },
   { code: "TECH10", discount: "10% Off", description: "Electronics only", validUntil: "Jun 30, 2026", minOrder: 50 },
 ]
 
@@ -99,7 +99,7 @@ export default function DealsPage() {
   const copyCode = (code: string) => {
     navigator.clipboard.writeText(code)
     setCopiedCode(code)
-    showToast(`Coupon "${" copied to clipboard!`, "success")
+    showToast(`Coupon "${code}" copied to clipboard!`, "success")
     setTimeout(() => setCopiedCode(null), 2000)
   }
 
@@ -210,11 +210,11 @@ export default function DealsPage() {
             const discount = Math.round((1 - deal.price / deal.originalPrice) * 100)
             return (
               <div key={deal.id} className="bg-card rounded-xl border border-border overflow-hidden group">
-                <Link href={`/product/${`}>
+                <Link href={`/product/${deal.id}`}>
                   <div className="relative aspect-square bg-muted">
                     <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                      style={{ backgroundImage: `url(${)` }}
+                      style={{ backgroundImage: `url(${deal.image})` }}
                     />
                     <span className="absolute top-3 left-3 px-2 py-1 text-xs font-bold rounded-full bg-red-500 text-white">
                       -{discount}%
@@ -229,12 +229,12 @@ export default function DealsPage() {
                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                     <span className="text-sm font-medium">{deal.rating}</span>
                   </div>
-                  <Link href={`/product/${`}>
+                  <Link href={`/product/${deal.id}`}>
                     <h4 className="font-medium text-foreground line-clamp-2 mb-2 hover:text-primary transition-colors">{deal.name}</h4>
                   </Link>
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-lg font-bold text-red-600">${</span>
-                    <span className="text-sm text-muted-foreground line-through">${</span>
+                    <span className="text-lg font-bold text-red-600">₹{deal.price.toLocaleString()}</span>
+                    <span className="text-sm text-muted-foreground line-through">₹{deal.originalPrice.toLocaleString()}</span>
                   </div>
                   <div className="mb-3">
                     <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
@@ -244,7 +244,7 @@ export default function DealsPage() {
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-red-500 rounded-full"
-                        style={{ width: `${%` }}
+                        style={{ width: `${soldPercent}%` }}
                       />
                     </div>
                   </div>
@@ -268,10 +268,10 @@ export default function DealsPage() {
           {categoryDeals.map((deal) => (
             <Link 
               key={deal.category}
-              href={`/search?q=${`}
+              href={`/search?q=${deal.category}`}
               className="bg-card rounded-xl border border-border p-4 text-left hover:border-primary/50 transition-colors group block"
             >
-              <div className={`w-12 h-12 rounded-xl ${ flex items-center justify-center mb-3`}>
+              <div className={`w-12 h-12 rounded-xl ${deal.color} flex items-center justify-center mb-3`}>
                 <Tag className="h-6 w-6 text-white" />
               </div>
               <h4 className="font-medium text-foreground group-hover:text-primary transition-colors">{deal.category}</h4>

@@ -33,7 +33,7 @@ const faqCategories = [
       { q: "How do I track my order?", a: "Go to My Orders or the Track Order page. Enter your order ID and you'll see real-time tracking information including current location and estimated delivery date." },
       { q: "How long does shipping take?", a: "Standard shipping takes 5-7 business days. Express shipping takes 2-3 business days. Overnight shipping arrives by the next business day." },
       { q: "Can I change my shipping address after placing an order?", a: "You can modify your shipping address within 2 hours of placing an order. Go to My Orders, select the order, and click 'Edit Address'." },
-      { q: "Do you offer free shipping?", a: "Yes! All orders above ?100 qualify for free standard shipping. You can also use the FREESHIP coupon code for free shipping on any order." },
+      { q: "Do you offer free shipping?", a: "Yes! All orders above ₹100 qualify for free standard shipping. You can also use the FREESHIP coupon code for free shipping on any order." },
     ]
   },
   {
@@ -58,7 +58,7 @@ const faqCategories = [
     name: "Account & Rewards",
     icon: Star,
     faqs: [
-      { q: "How do I earn reward points?", a: "You earn 1 point for every ?10 spent. Additional points can be earned through product reviews (50 pts), referrals (250 pts), and daily check-ins (5 pts)." },
+      { q: "How do I earn reward points?", a: "You earn 1 point for every ₹10 spent. Additional points can be earned through product reviews (50 pts), referrals (250 pts), and daily check-ins (5 pts)." },
       { q: "What are the membership tiers?", a: "We have four tiers: Bronze (0-999 pts), Silver (1000-4999 pts), Gold (5000-9999 pts), and Platinum (10000+ pts). Each tier unlocks exclusive benefits." },
       { q: "How do I change my password?", a: "Go to Settings > Security, enter your current password and your new password, then click 'Update Password'." },
     ]
@@ -138,15 +138,15 @@ export default function HelpPage() {
                 <div key={i} className="bg-card rounded-xl border border-border">
                   <button
                     className="w-full flex items-center justify-between p-4 text-left"
-                    onClick={() => toggleFAQ(`search-${`)}
+                    onClick={() => toggleFAQ(`search-${i}`)}
                   >
                     <div>
                       <span className="text-xs text-primary font-medium">{faq.category}</span>
                       <p className="font-medium text-foreground">{faq.q}</p>
                     </div>
-                    {openFAQ === `search-${` ? <ChevronUp className="h-5 w-5 text-muted-foreground" /> : <ChevronDown className="h-5 w-5 text-muted-foreground" />}
+                    {openFAQ === `search-${i}` ? <ChevronUp className="h-5 w-5 text-muted-foreground" /> : <ChevronDown className="h-5 w-5 text-muted-foreground" />}
                   </button>
-                  {openFAQ === `search-${` && (
+                  {openFAQ === `search-${i}` && (
                     <div className="px-4 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</div>
                   )}
                 </div>
@@ -183,7 +183,7 @@ export default function HelpPage() {
           {/* FAQs */}
           <div className="space-y-3">
             {faqCategories[activeCategory].faqs.map((faq, i) => {
-              const key = `${-${`
+              const key = `${activeCategory}-${i}`
               return (
                 <div key={key} className="bg-card rounded-xl border border-border overflow-hidden">
                   <button

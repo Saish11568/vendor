@@ -68,11 +68,11 @@ export function FlashDeal({ deal }: FlashDealProps) {
     <GlassCard className="overflow-hidden">
       <div className="flex flex-col sm:flex-row gap-4 p-4">
         {/* Image */}
-        <Link href={`/product/${`} className="relative w-full sm:w-32 h-32 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+        <Link href={`/product/${deal.id}`} className="relative w-full sm:w-32 h-32 rounded-lg overflow-hidden bg-muted flex-shrink-0">
           <div 
             className="absolute inset-0 bg-cover bg-center hover:scale-105 transition-transform duration-300"
             style={{ 
-              backgroundImage: `url(${)`,
+              backgroundImage: `url(${deal.image})`,
               backgroundColor: '#f4f4f5'
             }}
           />
@@ -84,7 +84,7 @@ export function FlashDeal({ deal }: FlashDealProps) {
 
         {/* Content */}
         <div className="flex-1 space-y-3">
-          <Link href={`/product/${`}>
+          <Link href={`/product/${deal.id}`}>
             <h3 className="font-medium text-foreground line-clamp-2 hover:text-primary transition-colors cursor-pointer">{deal.name}</h3>
           </Link>
           
@@ -108,8 +108,8 @@ export function FlashDeal({ deal }: FlashDealProps) {
 
           {/* Price */}
           <div className="flex items-baseline gap-2">
-            <span className="text-xl font-bold text-foreground">${</span>
-            <span className="text-sm text-muted-foreground line-through">${</span>
+            <span className="text-xl font-bold text-foreground">${deal.price.toFixed(2)}</span>
+            <span className="text-sm text-muted-foreground line-through">${deal.originalPrice.toFixed(2)}</span>
           </div>
 
           {/* Progress + Add to Cart */}
@@ -118,7 +118,7 @@ export function FlashDeal({ deal }: FlashDealProps) {
               <div className="h-2 rounded-full bg-muted overflow-hidden">
                 <div 
                   className="h-full rounded-full bg-primary transition-all duration-300"
-                  style={{ width: `${%` }}
+                  style={{ width: `${soldPercent}%` }}
                 />
               </div>
               <p className="text-xs text-muted-foreground">{deal.sold} sold of {deal.total}</p>

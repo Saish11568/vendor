@@ -49,7 +49,7 @@ export function TopProducts({ onTabChange }: { onTabChange?: (tab: string) => vo
               <p className="text-xs text-muted-foreground mt-0.5">{product.stock || 10} in stock</p>
             </div>
             <div className="text-right">
-              <p className="text-sm font-semibold text-foreground">${((product.price || 10) * (product.stock || 10)).toFixed(2)} value</p>
+              <p className="text-sm font-semibold text-foreground">₹{((product.price || 10) * (product.stock || 10)).toFixed(2)} value</p>
               <div className="flex items-center gap-1 justify-end mt-0.5">
                 <TrendingUp className="w-3 h-3 text-success" />
                 <span className="text-xs text-success">{product.growth || "+10%"}</span>

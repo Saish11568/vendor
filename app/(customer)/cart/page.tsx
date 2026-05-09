@@ -51,7 +51,7 @@ export default function CartPage() {
       return
     }
     if (subtotal < coupon.minOrder) {
-      setCouponError(`Minimum order ?${ required`)
+      setCouponError(`Minimum order ₹${coupon.minOrder} required`)
       setAppliedCoupon(null)
       return
     }
@@ -113,24 +113,24 @@ export default function CartPage() {
             return (
               <div key={item.product.id} className="bg-card rounded-xl border border-border p-4 sm:p-6">
                 <div className="flex gap-4">
-                  <Link href={`/product/${`}>
+                  <Link href={`/product/${item.product.id}`}>
                     <div
                       className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg bg-muted bg-cover bg-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
-                      style={{ backgroundImage: `url(${)` }}
+                      style={{ backgroundImage: `url(${item.product.image})` }}
                     />
                   </Link>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <p className="text-xs text-primary font-medium">{item.product.vendor}</p>
-                        <Link href={`/product/${`}>
+                        <Link href={`/product/${item.product.id}`}>
                           <h3 className="font-medium text-foreground hover:text-primary transition-colors cursor-pointer">
                             {item.product.name}
                           </h3>
                         </Link>
                         {item.selectedVariants && Object.entries(item.selectedVariants).length > 0 && (
                           <p className="text-xs text-muted-foreground mt-1">
-                            {Object.entries(item.selectedVariants).map(([k, v]) => `${: ${`).join(" · ")}
+                            {Object.entries(item.selectedVariants).map(([k, v]) => `${k}: ${v}`).join(" · ")}
                           </p>
                         )}
                       </div>
@@ -169,7 +169,7 @@ export default function CartPage() {
                       {/* Price */}
                       <div className="text-right">
                         <p className="text-lg font-bold text-foreground">
-                          ${
+                          ₹{item.product.price.toLocaleString()}
                         </p>
                         {discount && (
                           <p className="text-xs text-green-600 font-medium">You save {discount}%</p>
@@ -203,27 +203,27 @@ export default function CartPage() {
             <div className="space-y-3 mb-4">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal ({getCartCount()} items)</span>
-                <span className="text-foreground font-medium">${</span>
+                <span className="text-foreground font-medium">₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Shipping</span>
-                <span className={`font-medium ${`}>
-                  {shipping === 0 ? 'FREE' : `?${`}
+                <span className={`font-medium ${shipping === 0 ? "text-green-600" : "text-foreground"}`}>
+                  {shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Tax (8%)</span>
-                <span className="text-foreground font-medium">${</span>
+                <span className="text-foreground font-medium">₹{tax.toFixed(2)}</span>
               </div>
               {appliedCoupon && (
                 <div className="flex justify-between text-sm">
                   <span className="text-green-600 font-medium">Coupon ({appliedCoupon.code})</span>
-                  <span className="text-green-600 font-medium">-${</span>
+                  <span className="text-green-600 font-medium">-₹{couponDiscount.toFixed(2)}</span>
                 </div>
               )}
               <div className="border-t border-border pt-3 flex justify-between">
                 <span className="font-semibold text-foreground">Total</span>
-                <span className="text-xl font-bold text-foreground">${</span>
+                <span className="text-xl font-bold text-foreground">₹{total.toFixed(2)}</span>
               </div>
             </div>
 
@@ -247,7 +247,7 @@ export default function CartPage() {
 
             {shipping > 0 && (
               <p className="text-xs text-muted-foreground mb-4">
-                Add ${ more for free shipping!
+                Add ₹{(100 - subtotal).toFixed(2)} more for free shipping!
               </p>
             )}
 

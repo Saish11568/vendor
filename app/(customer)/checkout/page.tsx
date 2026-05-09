@@ -21,8 +21,8 @@ import Link from "next/link"
 
 const shippingOptions = [
   { id: "standard", label: "Standard Shipping", price: 0, time: "5-7 business days" },
-  { id: "express", label: "Express Shipping", price: 14.99, time: "2-3 business days" },
-  { id: "overnight", label: "Overnight Shipping", price: 29.99, time: "Next business day" },
+  { id: "express", label: "Express Shipping", price: 1199, time: "2-3 business days" },
+  { id: "overnight", label: "Overnight Shipping", price: 2399, time: "Next business day" },
 ]
 
 export default function CheckoutPage() {
@@ -30,6 +30,7 @@ export default function CheckoutPage() {
   const { cart, getCartTotal, getCartCount, clearCart, addOrder, user } = useStore()
   const [step, setStep] = useState(1)
   const [selectedShipping, setSelectedShipping] = useState("standard")
+  const [isProcessing, setIsProcessing] = useState(false)
   const [orderPlaced, setOrderPlaced] = useState(false)
   const [orderId, setOrderId] = useState("")
   const [address, setAddress] = useState<Address>({
@@ -78,10 +79,14 @@ export default function CheckoutPage() {
     return Object.keys(e).length === 0
   }
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     if (!validatePayment()) return
 
-    const newOrderId = `ORD-${`
+    setIsProcessing(true)
+    // Simulate payment gateway delay
+    await new Promise(r => setTimeout(r, 2500))
+
+    const newOrderId = `ORD-${Math.floor(Math.random() * 1000000)}`
     setOrderId(newOrderId)
 
     addOrder({
@@ -97,10 +102,11 @@ export default function CheckoutPage() {
         image: item.product.image,
       })),
       address,
-      paymentMethod: `•••• ${`,
+      paymentMethod: `•••• ${cardDetails.number.slice(-4)}`,
     })
 
     clearCart()
+    setIsProcessing(false)
     setOrderPlaced(true)
   }
 
@@ -113,6 +119,24 @@ export default function CheckoutPage() {
       parts.push(match.substring(i, i + 4))
     }
     return parts.length ? parts.join(" ") : value
+  }
+
+  // Payment processing overlay
+  if (isProcessing) {
+    return (
+      <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex flex-col items-center justify-center text-center p-6">
+        <div className="relative mb-8">
+          <div className="w-24 h-24 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Lock className="h-8 w-8 text-primary" />
+          </div>
+        </div>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Processing Payment</h2>
+        <p className="text-muted-foreground max-w-xs mx-auto">
+          Please do not refresh the page or click the back button. Securely connecting to our payment partner...
+        </p>
+      </div>
+    )
   }
 
   // Order success state
@@ -132,7 +156,7 @@ export default function CheckoutPage() {
           <div className="bg-card rounded-xl border border-border p-4 w-full mb-6">
             <div className="flex items-center justify-between text-sm mb-2">
               <span className="text-muted-foreground">Total Paid</span>
-              <span className="font-bold text-foreground">${</span>
+              <span className="font-bold text-foreground">₹{total.toFixed(2)}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Estimated Delivery</span>
@@ -322,8 +346,8 @@ export default function CheckoutPage() {
                           <p className="text-sm text-muted-foreground">{option.time}</p>
                         </div>
                       </div>
-                      <span className={`font-bold ${`}>
-                        {option.price === 0 ? 'FREE' : `?${`}
+                      <span className={`font-bold ${option.price === 0 ? "text-green-600" : "text-foreground"}`}>
+                        {option.price === 0 ? 'FREE' : `₹${option.price}`}
                       </span>
                     </div>
                   </button>
@@ -415,7 +439,7 @@ export default function CheckoutPage() {
                   <ArrowLeft className="h-4 w-4" /> Back
                 </Button>
                 <Button className="gap-2 h-12 px-8 text-base font-semibold" onClick={handlePlaceOrder}>
-                  <Shield className="h-4 w-4" /> Place Order · ${
+                  <Shield className="h-4 w-4" /> Place Order · ₹{total.toFixed(2)}
                 </Button>
               </div>
             </div>
@@ -431,13 +455,13 @@ export default function CheckoutPage() {
               <div key={item.product.id} className="flex gap-3">
                 <div
                   className="w-12 h-12 rounded-lg bg-muted bg-cover bg-center flex-shrink-0"
-                  style={{ backgroundImage: `url(${)` }}
+                  style={{ backgroundImage: `url(${item.product.image})` }}
                 />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground truncate">{item.product.name}</p>
                   <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
                 </div>
-                <p className="text-sm font-medium text-foreground">${</p>
+                <p className="text-sm font-medium text-foreground">₹{(item.product.price * item.quantity).toLocaleString()}</p>
               </div>
             ))}
           </div>
@@ -445,21 +469,21 @@ export default function CheckoutPage() {
           <div className="border-t border-border pt-3 space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Subtotal</span>
-              <span className="text-foreground">${</span>
+              <span className="text-foreground">₹{subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Shipping</span>
               <span className={shippingCost === 0 ? "text-green-600" : "text-foreground"}>
-                {shippingCost === 0 ? "FREE" : `?${`}
+                {shippingCost === 0 ? "FREE" : `₹${shippingCost.toFixed(2)}`}
               </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Tax</span>
-              <span className="text-foreground">${</span>
+              <span className="text-foreground">₹{tax.toFixed(2)}</span>
             </div>
             <div className="border-t border-border pt-2 flex justify-between">
               <span className="font-semibold text-foreground">Total</span>
-              <span className="text-lg font-bold text-foreground">${</span>
+              <span className="text-lg font-bold text-foreground">₹{total.toFixed(2)}</span>
             </div>
           </div>
         </div>

@@ -96,8 +96,8 @@ export function MarketingModule({ onTabChange }: MarketingModuleProps) {
   }
 
   const handleDelete = async (id: number) => {
-    const endpoint = activeTab === "coupons" ? `/api/coupons?id=${` : 
-                     activeTab === "flash" ? `/api/flash-sales?id=${` : `/api/campaigns?id=${`
+    const endpoint = activeTab === "coupons" ? `/api/coupons?id=${id}` : 
+                     activeTab === "flash" ? `/api/flash-sales?id=${id}` : `/api/campaigns?id=${id}`
     
     if (!confirm("Are you sure you want to delete this?")) return
 
@@ -111,7 +111,7 @@ export function MarketingModule({ onTabChange }: MarketingModuleProps) {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
-    alert(`Copied ${ to clipboard!`)
+    alert(`Copied ${text} to clipboard!`)
   }
 
   const totalReach = campaigns.reduce((acc, c) => acc + (c.sent || 0), 0)
@@ -126,7 +126,7 @@ export function MarketingModule({ onTabChange }: MarketingModuleProps) {
           { label: "Active Coupons", value: coupons.filter(c => c.status === 'active').length, icon: Tag, color: "text-primary" },
           { label: "Flash Sales", value: flashSales.length, icon: Zap, color: "text-warning" },
           { label: "Active Campaigns", value: campaigns.filter(c => c.status === 'active').length, icon: Megaphone, color: "text-info" },
-          { label: "Total Reach", value: totalReach >= 1000 ? `${K` : totalReach, icon: Mail, color: "text-success" },
+          { label: "Total Reach", value: totalReach >= 1000 ? `${(totalReach/1000).toFixed(1)}K` : totalReach, icon: Mail, color: "text-success" },
         ].map((stat) => (
           <motion.div
             key={stat.label}
@@ -243,7 +243,7 @@ export function MarketingModule({ onTabChange }: MarketingModuleProps) {
                     <div className="h-2 rounded-full bg-secondary/50 overflow-hidden">
                       <div
                         className="h-full bg-primary rounded-full transition-all"
-                        style={{ width: `${%` }}
+                        style={{ width: `${(coupon.used / coupon.usageLimit) * 100}%` }}
                       />
                     </div>
                   </div>
@@ -320,7 +320,7 @@ export function MarketingModule({ onTabChange }: MarketingModuleProps) {
                     </div>
                     <div className="flex items-center gap-4">
                       <span>Orders: <strong>{sale.orders || 0}</strong></span>
-                      <span>Revenue: <strong>${(sale.revenue || 0).toLocaleString()}</strong></span>
+                      <span>Revenue: <strong>₹{(sale.revenue || 0).toLocaleString()}</strong></span>
                     </div>
                   </div>
                 </motion.div>
@@ -392,7 +392,7 @@ export function MarketingModule({ onTabChange }: MarketingModuleProps) {
                       <p className="text-xs text-muted-foreground">Clicked</p>
                     </div>
                     <div className="p-3 rounded-xl bg-secondary/30 text-center">
-                      <p className="text-lg font-bold text-foreground">${(campaign.revenue || 0).toLocaleString()}</p>
+                      <p className="text-lg font-bold text-foreground">₹{(campaign.revenue || 0).toLocaleString()}</p>
                       <p className="text-xs text-muted-foreground">Revenue</p>
                     </div>
                   </div>

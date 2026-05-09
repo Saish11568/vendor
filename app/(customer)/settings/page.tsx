@@ -41,7 +41,7 @@ export default function SettingsPage() {
 
   const toggleNotification = (key: keyof typeof notifications) => {
     setNotifications({ ...notifications, [key]: !notifications[key] })
-    showToast(`${ ${`, "info")
+    showToast(`${key} notification settings updated`, "info")
   }
 
   const handleUpdatePassword = () => {
@@ -107,12 +107,12 @@ export default function SettingsPage() {
                 </div>
                 <button
                   onClick={() => toggleNotification(item.key as keyof typeof notifications)}
-                  className={`relative w-11 h-6 rounded-full transition-colors ?{
+                  className={`relative w-11 h-6 rounded-full transition-colors ${
                     notifications[item.key as keyof typeof notifications] ? "bg-primary" : "bg-muted"
                   }`}
                 >
                   <span
-                    className={`absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform ?{
+                    className={`absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform ${
                       notifications[item.key as keyof typeof notifications] ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
@@ -224,7 +224,7 @@ export default function SettingsPage() {
 
             <div className="flex items-center justify-between py-3 border-b border-border">
               <div className="flex items-center gap-3">
-                <span className="text-muted-foreground font-medium">?</span>
+                <span className="text-muted-foreground font-medium">₹</span>
                 <div>
                   <p className="font-medium text-foreground">Currency</p>
                   <p className="text-sm text-muted-foreground">Select your preferred currency</p>
@@ -235,7 +235,7 @@ export default function SettingsPage() {
                 onChange={(e) => { setPreferences({ ...preferences, currency: e.target.value }); showToast("Currency updated", "success") }}
                 className="px-3 py-2 rounded-lg border border-border bg-background text-sm"
               >
-                <option value="USD">USD (?)</option>
+                <option value="USD">USD ($)</option>
                 <option value="EUR">EUR (€)</option>
                 <option value="GBP">GBP (£)</option>
                 <option value="INR">INR (₹)</option>
@@ -257,7 +257,7 @@ export default function SettingsPage() {
               <div className="flex items-center gap-1 p-1 rounded-lg bg-muted">
                 <button
                   onClick={() => { setPreferences({ ...preferences, theme: "light" }); showToast("Light theme applied", "success") }}
-                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ?{
+                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
                     preferences.theme === "light" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"
                   }`}
                 >
@@ -265,7 +265,7 @@ export default function SettingsPage() {
                 </button>
                 <button
                   onClick={() => { setPreferences({ ...preferences, theme: "dark" }); showToast("Dark theme applied", "success") }}
-                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ?{
+                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
                     preferences.theme === "dark" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"
                   }`}
                 >

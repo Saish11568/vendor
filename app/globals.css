@@ -4,14 +4,14 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Premium Blue & White Theme - shared across customer & vendor */
-  --primary: oklch(0.45 0.17 255);
-  --primary-foreground: oklch(1 0 0);
+  /* Premium Blue & White Theme using OKLCH */
+  --primary: oklch(0.45 0.17 255);       /* Darker Premium Blue */
+  --primary-foreground: oklch(1 0 0);    /* White text on blue */
   
-  --background: oklch(0.98 0.01 240);
-  --foreground: oklch(0.20 0.02 250);
+  --background: oklch(0.98 0.01 240);    /* Soft White/Grey background */
+  --foreground: oklch(0.20 0.02 250);    /* Deep Blue/Black text */
   
-  --card: oklch(1 0 0 / 0.8);
+  --card: oklch(1 0 0 / 0.8);            /* Semi-transparent White for Glassmorphism */
   --card-foreground: oklch(0.20 0.02 250);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.20 0.02 250);
@@ -28,10 +28,10 @@
   --destructive: oklch(0.60 0.18 25);
   --destructive-foreground: oklch(1 0 0);
   
-  --border: oklch(0.92 0.01 250);
+  --border: oklch(0.92 0.01 250);        /* Subtle Blue/Grey border */
   --input: oklch(0.92 0.01 250);
   --ring: oklch(0.45 0.17 255);
-  --info: oklch(0.70 0.12 230);
+  --info: oklch(0.70 0.12 230);          /* Lighter Accent Blue */
   
   --radius: 0.75rem;
 
@@ -43,21 +43,10 @@
   --sidebar-accent-foreground: oklch(0.20 0.02 250);
   --sidebar-border: oklch(0.92 0.01 250);
   --sidebar-ring: oklch(0.45 0.17 255);
-
-  /* Chart colors */
-  --chart-1: oklch(0.45 0.15 250);
-  --chart-2: oklch(0.55 0.18 160);
-  --chart-3: oklch(0.65 0.15 45);
-  --chart-4: oklch(0.55 0.2 25);
-  --chart-5: oklch(0.50 0.18 280);
-
-  /* Professional theme tokens (vendor dashboard) */
-  --success: oklch(0.55 0.18 160);
-  --warning: oklch(0.70 0.15 70);
 }
 
 @theme inline {
-  --font-sans: 'Inter', 'Geist', 'Geist Fallback', system-ui, sans-serif;
+  --font-sans: 'Inter', 'Geist', 'Geist Fallback', sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -95,9 +84,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-info: var(--info);
 }
 
 @layer base {
@@ -118,105 +104,7 @@
   }
 }
 
-/* ============================================= */
-/* Vendor Dashboard Styles (Glassmorphism cards) */
-/* ============================================= */
-
-.pro-card {
-  background: oklch(1 0 0 / 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid oklch(1 0 0 / 0.5);
-  box-shadow: 
-    0 4px 24px oklch(0.45 0.15 250 / 0.08),
-    0 1px 2px oklch(0 0 0 / 0.04),
-    inset 0 1px 0 oklch(1 0 0 / 0.6);
-}
-
-.pro-card:hover {
-  background: oklch(1 0 0 / 0.8);
-  box-shadow: 
-    0 8px 32px oklch(0.45 0.15 250 / 0.12),
-    0 2px 4px oklch(0 0 0 / 0.06),
-    inset 0 1px 0 oklch(1 0 0 / 0.7);
-  transform: translateY(-1px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.pro-sidebar {
-  background: oklch(1 0 0 / 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-right: 1px solid oklch(0.45 0.15 250 / 0.1);
-  box-shadow: 4px 0 24px oklch(0.45 0.15 250 / 0.06);
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, oklch(0.45 0.15 250) 0%, oklch(0.55 0.18 280) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.glass-input {
-  background: oklch(1 0 0 / 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid oklch(0.45 0.15 250 / 0.15);
-  transition: all 0.2s ease;
-}
-
-.glass-input:focus {
-  background: oklch(1 0 0 / 0.8);
-  border-color: oklch(0.45 0.15 250 / 0.4);
-  box-shadow: 0 0 0 3px oklch(0.45 0.15 250 / 0.1);
-}
-
-.glass-button {
-  background: oklch(1 0 0 / 0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid oklch(1 0 0 / 0.6);
-  box-shadow: 0 2px 8px oklch(0 0 0 / 0.04);
-  transition: all 0.2s ease;
-}
-
-.glass-button:hover {
-  background: oklch(1 0 0 / 0.7);
-  box-shadow: 0 4px 12px oklch(0 0 0 / 0.08);
-}
-
-.glass-overlay {
-  background: oklch(0.15 0.015 260 / 0.4);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.glass-modal {
-  background: oklch(1 0 0 / 0.85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid oklch(1 0 0 / 0.5);
-  box-shadow: 
-    0 24px 48px oklch(0 0 0 / 0.12),
-    0 8px 16px oklch(0 0 0 / 0.08),
-    inset 0 1px 0 oklch(1 0 0 / 0.8);
-}
-
-.glass-table-header {
-  background: oklch(0.45 0.15 250 / 0.05);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.glass-table-row:hover {
-  background: oklch(0.45 0.15 250 / 0.04);
-}
-
-/* ================================ */
-/* Shared Scrollbar & Animations    */
-/* ================================ */
-
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -232,7 +120,7 @@
   background: var(--muted-foreground);
 }
 
-/* Customer animation utilities */
+/* Animation utilities */
 @keyframes slide-in-from-right {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
@@ -268,6 +156,7 @@
   animation-name: zoom-in;
 }
 
+/* Line clamp utility */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;

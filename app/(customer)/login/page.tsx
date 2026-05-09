@@ -87,41 +87,48 @@ function LoginContent() {
   return (
     <div className="min-h-screen bg-background flex">
       {/* Left Panel - Branding */}
-      <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gradient-to-br from-primary to-blue-700 p-12 text-white">
-        <div>
-          <Link href="/" className="flex items-center gap-3 mb-12">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 text-white font-bold text-xl">
+      <div className="hidden lg:flex flex-col justify-between w-1/2 relative p-12 text-white overflow-hidden">
+        {/* Background Image & Overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80&auto=format)' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-blue-900/90 backdrop-blur-[2px]" />
+
+        <div className="relative z-10">
+          <Link href="/" className="flex items-center gap-3 mb-12 group">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 text-white font-bold text-2xl backdrop-blur-md border border-white/30 group-hover:bg-white/30 transition-all shadow-xl">
               N
             </div>
-            <span className="text-2xl font-bold">NexaShop</span>
+            <span className="text-3xl font-extrabold tracking-tight">NexaShop</span>
           </Link>
-          <h1 className="text-4xl font-bold mb-4 leading-tight">
-            {tab === "login" ? "Welcome Back" : "Join NexaShop"}
+          <h1 className="text-5xl font-bold mb-6 leading-tight drop-shadow-md">
+            {tab === "login" ? "Welcome Back to Premium Shopping" : "Join the NexaShop Experience"}
           </h1>
-          <p className="text-lg text-white/80 max-w-md">
+          <p className="text-xl text-white/90 max-w-md font-medium leading-relaxed drop-shadow">
             {tab === "login"
-              ? "Sign in to access your orders, wishlist, and exclusive deals."
-              : "Create your account and start shopping from thousands of premium products."}
+              ? "Sign in to access your orders, wishlist, and exclusive deals crafted just for you."
+              : "Create your account and start exploring thousands of premium products from trusted global vendors."}
           </p>
         </div>
 
-        <div className="space-y-6">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
-              <ShoppingBag className="h-6 w-6" />
+        <div className="relative z-10 space-y-6">
+          <div className="flex items-center gap-5 bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/20">
+            <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center shadow-inner">
+              <ShoppingBag className="h-7 w-7 text-white" />
             </div>
             <div>
-              <p className="font-medium">10,000+ Products</p>
-              <p className="text-sm text-white/70">From 500+ trusted vendors</p>
+              <p className="font-bold text-lg">10,000+ Premium Products</p>
+              <p className="text-sm text-white/80">Sourced from 500+ trusted global vendors</p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
-              <Lock className="h-6 w-6" />
+          <div className="flex items-center gap-5 bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/20">
+            <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center shadow-inner">
+              <Lock className="h-7 w-7 text-white" />
             </div>
             <div>
-              <p className="font-medium">Secure Shopping</p>
-              <p className="text-sm text-white/70">SSL encrypted transactions</p>
+              <p className="font-bold text-lg">Bank-Grade Security</p>
+              <p className="text-sm text-white/80">256-bit SSL encrypted transactions</p>
             </div>
           </div>
         </div>

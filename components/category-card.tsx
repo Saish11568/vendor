@@ -13,10 +13,10 @@ interface CategoryCardProps {
 
 export function CategoryCard({ name, icon: Icon, count, gradient }: CategoryCardProps) {
   return (
-    <Link href={`/search?q=${`}>
+    <Link href={`/search?q=${encodeURIComponent(name)}`}>
       <GlassCard className="cursor-pointer group p-4">
         <div className="flex flex-col items-center text-center gap-3">
-          <div className={`p-3 rounded-xl ${ transition-transform duration-300 group-hover:scale-110`}>
+          <div className={`p-3 rounded-xl ${gradient} transition-transform duration-300 group-hover:scale-110`}>
             <Icon className="h-6 w-6 text-white" />
           </div>
           <div>

@@ -109,13 +109,13 @@ export default function TrackOrderPage() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Status</p>
-              <span className={`px-3 py-1 text-xs font-medium rounded-full ${`}>
+              <span className={`px-3 py-1 text-xs font-medium rounded-full ${trackedOrder.statusColor}`}>
                 {trackedOrder.status}
               </span>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Total</p>
-              <p className="font-bold text-foreground">${</p>
+              <p className="font-bold text-foreground">₹{trackedOrder.total.toLocaleString()}</p>
             </div>
           </div>
 
@@ -128,19 +128,19 @@ export default function TrackOrderPage() {
                 <div key={step.status} className="relative pb-8 last:pb-0">
                   {/* Line */}
                   {index < trackingSteps.length - 1 && (
-                    <div className={`absolute left-[-20px] top-8 w-0.5 h-full ${`} />
+                    <div className={`absolute left-[-20px] top-8 w-0.5 h-full ${isCompleted ? "bg-primary" : "bg-border"}`} />
                   )}
                   {/* Dot */}
-                  <div className={`absolute left-[-28px] top-1 w-4 h-4 rounded-full border-2 flex items-center justify-center ?{
+                  <div className={`absolute left-[-28px] top-1 w-4 h-4 rounded-full border-2 flex items-center justify-center ${
                     isCurrent ? "border-primary bg-primary" : isCompleted ? "border-primary bg-primary" : "border-border bg-background"
                   }`}>
                     {isCompleted && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </div>
                   {/* Content */}
-                  <div className={`${`}>
+                  <div className={`${isCompleted || isCurrent ? "opacity-100" : "opacity-50"}`}>
                     <div className="flex items-start justify-between">
                       <div>
-                        <p className={`font-medium ${`}>
+                        <p className={`font-medium ${isCurrent ? "text-primary" : "text-foreground"}`}>
                           {step.status}
                           {isCurrent && <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-primary text-primary-foreground">Current</span>}
                         </p>
@@ -160,13 +160,13 @@ export default function TrackOrderPage() {
             {trackedOrder.items.map((item, i) => (
               <div key={i} className="flex items-center gap-4 py-2">
                 <div className="w-12 h-12 rounded-lg bg-muted overflow-hidden">
-                  <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${)` }} />
+                  <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${item.image})` }} />
                 </div>
                 <div className="flex-1">
                   <p className="font-medium text-foreground">{item.name}</p>
                   <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                 </div>
-                <p className="font-medium text-foreground">${</p>
+                <p className="font-medium text-foreground">₹{item.price}</p>
               </div>
             ))}
           </div>
@@ -191,7 +191,7 @@ export default function TrackOrderPage() {
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-muted overflow-hidden">
-                    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${)` }} />
+                    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${order.items[0].image})` }} />
                   </div>
                   <div>
                     <p className="font-medium text-foreground">{order.id}</p>
@@ -199,10 +199,10 @@ export default function TrackOrderPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${`}>
+                  <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${order.statusColor}`}>
                     {order.status}
                   </span>
-                  <p className="text-sm font-medium text-foreground mt-1">${</p>
+                  <p className="text-sm font-medium text-foreground mt-1">₹{order.total.toLocaleString()}</p>
                 </div>
               </button>
             ))}

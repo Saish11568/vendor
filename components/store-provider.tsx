@@ -20,7 +20,7 @@ import {
 function loadFromStorage<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback
   try {
-    const data = localStorage.getItem(`nexashop_${`)
+    const data = localStorage.getItem(`nexashop_${key}`)
     return data ? JSON.parse(data) : fallback
   } catch { return fallback }
 }
@@ -28,7 +28,7 @@ function loadFromStorage<T>(key: string, fallback: T): T {
 function saveToStorage(key: string, value: unknown) {
   if (typeof window === "undefined") return
   try {
-    localStorage.setItem(`nexashop_${`, JSON.stringify(value))
+    localStorage.setItem(`nexashop_${key}`, JSON.stringify(value))
   } catch { /* storage full or unavailable */ }
 }
 
@@ -201,13 +201,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { product, quantity, selectedVariants: variants }]
     })
-    showToast(`${ added to cart!`, "success")
+    showToast(`${product.name} added to cart!`, "success")
   }, [showToast])
 
   const removeFromCart = useCallback((productId: number) => {
     setCart(prev => {
       const item = prev.find(i => i.product.id === productId)
-      if (item) showToast(`${ removed from cart`, "info")
+      if (item) showToast(`${item.product.name} removed from cart`, "info")
       return prev.filter(item => item.product.id !== productId)
     })
   }, [showToast])
@@ -238,7 +238,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const addToWishlist = useCallback((product: Product) => {
     setWishlist(prev => {
       if (prev.find(p => p.id === product.id)) return prev
-      showToast(`${ added to wishlist!`, "success")
+      showToast(`${product.name} added to wishlist!`, "success")
       return [...prev, product]
     })
   }, [showToast])
@@ -246,7 +246,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const removeFromWishlist = useCallback((productId: number) => {
     setWishlist(prev => {
       const item = prev.find(p => p.id === productId)
-      if (item) showToast(`${ removed from wishlist`, "info")
+      if (item) showToast(`${item.name} removed from wishlist`, "info")
       return prev.filter(p => p.id !== productId)
     })
   }, [showToast])
@@ -258,8 +258,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   // Auth actions
   const login = useCallback((email: string, _password: string) => {
     // Simulated login – accept any credentials for demo
-    setUser(prev => ({ ...prev, email, isLoggedIn: true }))
-    showToast("Welcome back! You've logged in successfully.", "success")
+    // Extract a name from the email (e.g. "alex@test.com" -> "Alex")
+    const name = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ');
+    const formattedName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    
+    setUser(prev => ({ ...prev, email, name: formattedName || "User", isLoggedIn: true }))
+    showToast(`Welcome back, ${formattedName || "User"}! You've logged in successfully.`, "success")
     return true
   }, [showToast])
 
@@ -306,7 +310,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   // Orders
   const addOrder = useCallback((order: Order) => {
     setOrders(prev => [order, ...prev])
-    showToast(`Order ${ placed successfully!`, "success")
+    showToast(`Order ${order.id} placed successfully!`, "success")
   }, [showToast])
 
   const value: StoreState = useMemo(() => ({

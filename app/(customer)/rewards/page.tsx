@@ -59,7 +59,7 @@ export default function RewardsPage() {
     }
     updateProfile({ rewardPoints: currentPoints - reward.points })
     setRedeemedIds([...redeemedIds, reward.id])
-    showToast(`🎉 "${" redeemed successfully!`, "success")
+    showToast(`🎉 "${reward.name}" redeemed successfully!`, "success")
   }
 
   const handleDailyCheckin = () => {
@@ -88,7 +88,7 @@ export default function RewardsPage() {
               <p className="text-white/80 text-sm">Available Points</p>
               <p className="text-4xl font-bold">{currentPoints.toLocaleString()}</p>
             </div>
-            <div className={`px-3 py-1 rounded-full ${ text-white text-sm font-medium flex items-center gap-1`}>
+            <div className={`px-3 py-1 rounded-full ${currentTier.color} text-white text-sm font-medium flex items-center gap-1`}>
               <Trophy className="h-4 w-4" />
               {currentTier.name} Member
             </div>
@@ -103,7 +103,7 @@ export default function RewardsPage() {
               <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-white rounded-full transition-all"
-                  style={{ width: `${%` }}
+                  style={{ width: `${progressToNext}%` }}
                 />
               </div>
             </div>
@@ -178,7 +178,7 @@ export default function RewardsPage() {
                   <div className="h-32 bg-muted relative">
                     <div 
                       className="absolute inset-0 bg-cover bg-center opacity-80"
-                      style={{ backgroundImage: `url(${)` }}
+                      style={{ backgroundImage: `url(${reward.image})` }}
                     />
                     <span className="absolute top-3 left-3 px-2 py-1 text-xs font-medium rounded-full bg-white/90 text-foreground">
                       {reward.category}
@@ -226,7 +226,7 @@ export default function RewardsPage() {
                   <p className="text-sm font-medium text-foreground">{entry.action}</p>
                   <p className="text-xs text-muted-foreground">{entry.date}</p>
                 </div>
-                <span className={`font-bold ${`}>
+                <span className={`font-bold ${entry.type === "earned" ? "text-green-600" : "text-foreground"}`}>
                   {entry.type === "earned" ? "+" : ""}{entry.points}
                 </span>
               </div>

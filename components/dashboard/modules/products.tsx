@@ -55,7 +55,7 @@ export function ProductsModule() {
   }, [])
 
   const handleDelete = async (id: number) => {
-    await fetch(`/api/products/${`, { method: "DELETE" })
+    await fetch(`/api/products/${id}`, { method: "DELETE" })
     setProducts(products.filter(p => p.id !== id))
   }
 
@@ -63,7 +63,7 @@ export function ProductsModule() {
     if (!formData.name || !formData.price || !formData.stock) return
     
     if (editingId) {
-      const res = await fetch(`/api/products/${`, {
+      const res = await fetch(`/api/products/${editingId}`, {
         method: "PUT",
         body: JSON.stringify({
           ...formData,
@@ -81,7 +81,7 @@ export function ProductsModule() {
           ...formData,
           price: parseFloat(formData.price as string),
           stock: parseInt(formData.stock as string),
-          sku: `NEW-${`,
+          sku: `NEW-${Math.floor(Math.random() * 1000)}`,
           status: parseInt(formData.stock as string) > 0 ? "active" : "out_of_stock",
           image: formData.image || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop",
         }),
@@ -135,7 +135,7 @@ export function ProductsModule() {
     reader.readAsText(file)
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLDivElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLElement>) => {
     let file: File | null = null;
     if ("dataTransfer" in e) {
       e.preventDefault();
@@ -291,7 +291,7 @@ export function ProductsModule() {
             <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
               <div>
                 <p className="text-xs text-muted-foreground">Price</p>
-                <p className="text-lg font-bold text-foreground">${product.price.toFixed(2)}</p>
+                <p className="text-lg font-bold text-foreground">₹{product.price.toFixed(2)}</p>
               </div>
               <div className="text-right">
                 <p className="text-xs text-muted-foreground">Stock</p>
@@ -476,7 +476,7 @@ export function ProductsModule() {
                 <span>Stock: {previewProduct.stock}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-3xl font-bold text-foreground">${previewProduct.price.toFixed(2)}</span>
+                <span className="text-3xl font-bold text-foreground">₹{previewProduct.price.toFixed(2)}</span>
                 <span className={cn(
                   "px-3 py-1 rounded-full text-sm font-medium",
                   statusConfig[previewProduct.status as keyof typeof statusConfig]?.bg,

@@ -124,7 +124,7 @@ export function WalletModule() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Total Balance</p>
-                <p className="text-3xl font-bold text-foreground">${walletBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                <p className="text-3xl font-bold text-foreground">₹{walletBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
               </div>
             </div>
             <Button className="gap-2 rounded-xl" onClick={() => setShowWithdrawModal(true)}>
@@ -136,13 +136,13 @@ export function WalletModule() {
             <div className="p-4 rounded-xl bg-success/10">
               <p className="text-xs text-muted-foreground">Available for Withdrawal</p>
               <p className="text-xl font-bold text-success mt-1">
-                ${availableBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                ₹{availableBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </p>
             </div>
             <div className="p-4 rounded-xl bg-warning/10">
               <p className="text-xs text-muted-foreground">Pending Withdrawal</p>
               <p className="text-xl font-bold text-warning mt-1">
-                ${pendingAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                ₹{pendingAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </p>
             </div>
           </div>
@@ -320,7 +320,7 @@ export function WalletModule() {
               <div className="p-4 rounded-xl bg-primary/10 mb-6">
                 <p className="text-xs text-muted-foreground">Available Balance</p>
                 <p className="text-2xl font-bold text-primary">
-                  ${availableBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  ₹{availableBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </p>
               </div>
 

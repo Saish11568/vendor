@@ -103,7 +103,7 @@ export default function HomePage() {
                 <div className="flex items-center gap-2 text-white/90 mb-2">
                   <Sparkles className="h-5 w-5" />
                   <span className="text-sm font-medium">
-                    {user.isLoggedIn ? `Welcome back, ${!` : 'Welcome to NexaShop!'}
+                    {user.isLoggedIn ? `Welcome back, ${user.name}!` : 'Welcome to NexaShop!'}
                   </span>
                 </div>
                 <h1 className="text-2xl lg:text-4xl font-bold text-white mb-3 text-balance">
@@ -223,7 +223,7 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {vendors.map((vendor) => (
-                <Link key={vendor.name} href={`/search?q=${`}>
+                <Link key={vendor.name} href={`/search?q=${vendor.name}`}>
                   <GlassCard className="p-4 cursor-pointer">
                     <div className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold text-xl">
@@ -297,7 +297,7 @@ export default function HomePage() {
                 <h4 className="font-semibold text-foreground mb-4">Shop</h4>
                 <div className="space-y-2">
                   {["Electronics", "Fashion", "Home & Living", "Sports"].map(l => (
-                    <Link key={l} href={`/search?q=${`} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">{l}</Link>
+                    <Link key={l} href={`/search?q=${l}`} className="block text-sm text-muted-foreground hover:text-foreground transition-colors">{l}</Link>
                   ))}
                 </div>
               </div>

@@ -88,7 +88,7 @@ export function RecentOrders({ onTabChange }: { onTabChange?: (tab: string) => v
                   </span>
                 </td>
                 <td className="py-4 px-4">
-                  <span className="text-sm font-semibold text-foreground">{order.total ? `₹${` : order.amount}</span>
+                  <span className="text-sm font-semibold text-foreground">{order.total ? `₹${order.total.toFixed(2)}` : order.amount}</span>
                 </td>
                 <td className="py-4 px-4">
                   <span

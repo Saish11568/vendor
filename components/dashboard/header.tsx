@@ -43,7 +43,7 @@ export function Header({ title, subtitle }: HeaderProps) {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && searchQuery) {
-                alert(`Searching global catalog for: ${`)
+                alert(`Searching global catalog for: ${searchQuery}`)
               }
             }}
             placeholder="Search anything..."

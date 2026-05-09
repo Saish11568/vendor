@@ -30,7 +30,7 @@ export default function WishlistPage() {
       return
     }
     inStockItems.forEach(item => addToCart(item))
-    showToast(`${ items added to cart!`, "success")
+    showToast(`${inStockItems.length} items added to cart!`, "success")
   }
 
   const handleShare = () => {
@@ -97,7 +97,7 @@ export default function WishlistPage() {
           <div className="flex items-center gap-6">
             <div>
               <p className="text-sm text-muted-foreground">Total Value</p>
-              <p className="text-xl font-bold text-foreground">${)}</p>
+              <p className="text-xl font-bold text-foreground">₹{totalValue.toLocaleString()}</p>
             </div>
             <div className="h-8 w-px bg-border" />
             <div>
@@ -117,11 +117,11 @@ export default function WishlistPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {wishlist.map((item) => (
             <div key={item.id} className="bg-card rounded-xl border border-border overflow-hidden group">
-              <Link href={`/product/${`}>
+              <Link href={`/product/${item.id}`}>
                 <div className="relative aspect-square bg-muted">
                   <div 
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                    style={{ backgroundImage: `url(${)` }}
+                    style={{ backgroundImage: `url(${item.image})` }}
                   />
                   {item.inStock === false && (
                     <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
@@ -144,7 +144,7 @@ export default function WishlistPage() {
               </div>
               <div className="p-4 -mt-6">
                 <p className="text-xs text-muted-foreground mb-1">{item.vendor}</p>
-                <Link href={`/product/${`}>
+                <Link href={`/product/${item.id}`}>
                   <h3 className="font-medium text-foreground line-clamp-2 mb-2 hover:text-primary transition-colors cursor-pointer">{item.name}</h3>
                 </Link>
                 <div className="flex items-center gap-2 mb-3">
@@ -156,9 +156,9 @@ export default function WishlistPage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-lg font-bold text-foreground">${</span>
+                    <span className="text-lg font-bold text-foreground">₹{item.price}</span>
                     {item.originalPrice && (
-                      <span className="text-sm text-muted-foreground line-through ml-2">${</span>
+                      <span className="text-sm text-muted-foreground line-through ml-2">₹{item.originalPrice}</span>
                     )}
                   </div>
                   <Button
@@ -179,11 +179,11 @@ export default function WishlistPage() {
         <div className="space-y-3">
           {wishlist.map((item) => (
             <div key={item.id} className="bg-card rounded-xl border border-border p-4 flex gap-4">
-              <Link href={`/product/${`}>
+              <Link href={`/product/${item.id}`}>
                 <div className="w-24 h-24 rounded-lg bg-muted overflow-hidden flex-shrink-0">
                   <div 
                     className="w-full h-full bg-cover bg-center hover:scale-105 transition-transform"
-                    style={{ backgroundImage: `url(${)` }}
+                    style={{ backgroundImage: `url(${item.image})` }}
                   />
                 </div>
               </Link>
@@ -191,7 +191,7 @@ export default function WishlistPage() {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-xs text-muted-foreground">{item.vendor}</p>
-                    <Link href={`/product/${`}>
+                    <Link href={`/product/${item.id}`}>
                       <h3 className="font-medium text-foreground hover:text-primary transition-colors cursor-pointer">{item.name}</h3>
                     </Link>
                     <div className="flex items-center gap-2 mt-1">
@@ -206,9 +206,9 @@ export default function WishlistPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-foreground">${</p>
+                    <p className="font-bold text-foreground">₹{item.price}</p>
                     {item.originalPrice && (
-                      <p className="text-sm text-muted-foreground line-through">${</p>
+                      <p className="text-sm text-muted-foreground line-through">₹{item.originalPrice}</p>
                     )}
                   </div>
                 </div>

@@ -45,14 +45,14 @@ export function Navbar() {
     e.preventDefault()
     if (searchQuery.trim()) {
       setIsSearchFocused(false)
-      router.push(`/search?q=${`)
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
     }
   }
 
   const handleSearchSelect = (productId: number) => {
     setIsSearchFocused(false)
     setSearchQuery("")
-    router.push(`/product/${`)
+    router.push(`/product/${productId}`)
   }
 
   // Get suggestions
@@ -76,7 +76,7 @@ export function Navbar() {
             </Link>
 
             {/* Search Bar */}
-            <div ref={searchRef} className={`relative flex-1 max-w-xl transition-all duration-300 hidden sm:block ${`}>
+            <div ref={searchRef} className={`relative flex-1 max-w-xl transition-all duration-300 hidden sm:block ${isSearchFocused ? 'scale-[1.02]' : ''}`}>
               <form onSubmit={handleSearchSubmit}>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -112,11 +112,11 @@ export function Navbar() {
                     >
                       <div
                         className="w-10 h-10 rounded-lg bg-muted bg-cover bg-center flex-shrink-0"
-                        style={{ backgroundImage: `url(${)` }}
+                        style={{ backgroundImage: `url(${product.image})` }}
                       />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
-                        <p className="text-xs text-muted-foreground">{product.vendor} · ${</p>
+                        <p className="text-xs text-muted-foreground">{product.vendor} · ${product.price}</p>
                       </div>
                       <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                     </button>
@@ -126,7 +126,7 @@ export function Navbar() {
                       className="w-full px-4 py-3 text-sm text-primary font-medium hover:bg-muted/60 transition-colors text-center border-t border-border"
                       onClick={() => {
                         setIsSearchFocused(false)
-                        router.push(`/search?q=${`)
+                        router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
                       }}
                     >
                       View all results for "{searchQuery}"
@@ -164,11 +164,11 @@ export function Navbar() {
                       {notifications.map((n) => (
                         <button
                           key={n.id}
-                          className={`w-full px-4 py-3 text-left hover:bg-muted/50 transition-colors border-b border-border last:border-0 ${`}
+                          className={`w-full px-4 py-3 text-left hover:bg-muted/50 transition-colors border-b border-border last:border-0 ${!n.read ? 'bg-primary/5' : ''}`}
                           onClick={() => markNotificationRead(n.id)}
                         >
                           <div className="flex items-start gap-3">
-                            <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${`} />
+                            <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${!n.read ? 'bg-primary' : 'bg-transparent'}`} />
                             <div>
                               <p className="text-sm font-medium text-foreground">{n.title}</p>
                               <p className="text-xs text-muted-foreground mt-0.5">{n.message}</p>

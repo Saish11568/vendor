@@ -222,10 +222,10 @@ export default function ProfilePage() {
               {savedAddresses.map((address) => (
                 <div 
                   key={address.id}
-                  className={`p-4 rounded-lg border ${`}
+                  className={`p-4 rounded-lg border ${address.isDefault ? "border-primary bg-primary/5" : "border-border bg-card"}`}
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <span className={`px-2 py-0.5 text-xs font-medium rounded ?{
+                    <span className={`px-2 py-0.5 text-xs font-medium rounded ${
                       address.type === "Home" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
                     }`}>
                       {address.type}

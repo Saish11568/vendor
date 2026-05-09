@@ -69,7 +69,7 @@ export default function PaymentsPage() {
   const handleExport = () => {
     const csvContent = [
       "Transaction ID,Description,Amount,Date,Status,Method",
-      ...transactions.map(t => `${,${,${?${,${,${,${`)
+      ...transactions.map(t => `${t.id},${t.description},${t.amount},${t.date},${t.status},${t.method}`)
     ].join("\n")
     const blob = new Blob([csvContent], { type: "text/csv" })
     const url = URL.createObjectURL(blob)
@@ -134,10 +134,10 @@ export default function PaymentsPage() {
 
             <div className="space-y-3">
               {cards.map((card) => (
-                <div key={card.id} className={`p-4 rounded-lg border ${`}>
+                <div key={card.id} className={`p-4 rounded-lg border ${card.isDefault ? "border-primary bg-primary/5" : "border-border bg-card"}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className={`w-12 h-8 rounded flex items-center justify-center ${`}>
+                      <div className={`w-12 h-8 rounded flex items-center justify-center ${card.type === "visa" ? "bg-blue-600" : "bg-orange-500"}`}>
                         <span className="text-white text-xs font-bold uppercase">{card.type}</span>
                       </div>
                       <div>
@@ -176,7 +176,7 @@ export default function PaymentsPage() {
               {transactions.map((txn) => (
                 <div key={txn.id} className="flex items-center justify-between py-3 border-b border-border last:border-0">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${`}>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${txn.amount < 0 ? "bg-green-100" : "bg-muted"}`}>
                       {txn.amount < 0 ? <CheckCircle2 className="h-5 w-5 text-green-600" /> : <CreditCard className="h-5 w-5 text-muted-foreground" />}
                     </div>
                     <div>
@@ -185,10 +185,10 @@ export default function PaymentsPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`font-bold ${`}>
-                      {txn.amount < 0 ? "+" : "-"}${
+                    <p className={`font-bold ${txn.amount < 0 ? "text-green-600" : "text-foreground"}`}>
+                      {txn.amount < 0 ? "+" : "-"}₹{Math.abs(txn.amount).toLocaleString()}
                     </p>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${`}>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${txn.status === "completed" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>
                       {txn.status}
                     </span>
                   </div>
@@ -205,7 +205,7 @@ export default function PaymentsPage() {
               <Wallet className="h-5 w-5" />
               <span className="text-sm font-medium text-white/80">NexaShop Wallet</span>
             </div>
-            <p className="text-3xl font-bold mb-1">?124.50</p>
+            <p className="text-3xl font-bold mb-1">₹124.50</p>
             <p className="text-sm text-white/70 mb-4">Available Balance</p>
             <Button variant="secondary" className="w-full bg-white/20 text-white hover:bg-white/30 border-0" onClick={() => showToast("Add money feature coming soon!", "info")}>
               Add Money
@@ -223,7 +223,7 @@ export default function PaymentsPage() {
                 <button 
                   key={option.label}
                   className="w-full flex items-center justify-between p-3 rounded-lg border border-border hover:border-primary/50 transition-colors"
-                  onClick={() => showToast(`${ setup coming soon!`, "info")}
+                  onClick={() => showToast(`${option.label} setup coming soon!`, "info")}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">

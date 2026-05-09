@@ -3,12 +3,13 @@ import { readDb, writeDb } from '@/lib/db';
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: paramId } = await params;
     const data = await request.json();
     const db = readDb();
-    const id = Number(params.id);
+    const id = Number(paramId);
     
     const index = db.products.findIndex((p: any) => p.id === id);
     if (index === -1) {
@@ -25,11 +26,12 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: paramId } = await params;
     const db = readDb();
-    const id = Number(params.id);
+    const id = Number(paramId);
     
     const index = db.products.findIndex((p: any) => p.id === id);
     if (index === -1) {

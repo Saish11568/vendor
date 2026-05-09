@@ -44,7 +44,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
           <div key={index} className="flex items-center justify-between gap-4 text-xs">
             <span className="text-muted-foreground capitalize">{entry.dataKey}</span>
             <span className="font-medium text-foreground">
-              {entry.dataKey === "revenue" ? `₹${` : entry.value}
+              {entry.dataKey === "revenue" ? `₹${entry.value.toLocaleString()}` : entry.value}
             </span>
           </div>
         ))}
@@ -146,7 +146,7 @@ export function SalesChart() {
               fontSize={12}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => `₹${k`}
+              tickFormatter={(value) => `₹${value / 1000}k`}
             />
             <Tooltip content={<CustomTooltip />} />
             <Area

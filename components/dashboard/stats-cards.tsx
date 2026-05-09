@@ -34,7 +34,7 @@ export function StatsCards() {
   const dynamicStats = [
     {
       title: "Total Revenue",
-      value: `₹${`,
+      value: `₹${totalRevenue.toFixed(2)}`,
       change: "+12.5%",
       trend: "up",
       icon: DollarSign,
@@ -89,10 +89,10 @@ export function StatsCards() {
             className="pro-card rounded-xl p-5 cursor-pointer transition-all"
           >
             <div className="flex items-start justify-between">
-              <div className={`p-3 rounded-xl ${`}>
-                <Icon className={`w-5 h-5 ${`} />
+              <div className={`p-3 rounded-xl ${stat.bgColor}`}>
+                <Icon className={`w-5 h-5 ${stat.color}`} />
               </div>
-              <div className={`flex items-center gap-1 text-xs font-medium ?{
+              <div className={`flex items-center gap-1 text-xs font-medium ${
                 stat.trend === "up" ? "text-success" : "text-destructive"
               }`}>
                 <TrendIcon className="w-3 h-3" />

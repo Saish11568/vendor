@@ -69,7 +69,7 @@ export function OrdersModule() {
       ...filteredOrders.map(o => [
         o.id, 
         o.date, 
-        `"${"`, 
+        `"${o.customer.name}"`, 
         o.customer.email, 
         o.items?.length || 0, 
         o.total, 
@@ -220,7 +220,7 @@ export function OrdersModule() {
                     </td>
                     <td className="py-4 px-6">
                       <span className="text-sm font-semibold text-foreground">
-                        ${order.total.toFixed(2)}
+                        ₹{order.total.toFixed(2)}
                       </span>
                     </td>
                     <td className="py-4 px-6">
@@ -317,7 +317,7 @@ export function OrdersModule() {
               {/* Order Items */}
               <div className="space-y-3 mb-4">
                 <h3 className="text-sm font-medium text-foreground">Order Items</h3>
-                {selectedOrder.items.map((item, idx) => (
+                {selectedOrder.items.map((item: any, idx: number) => (
                   <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-secondary/20">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-secondary/50 flex items-center justify-center">
@@ -328,7 +328,7 @@ export function OrdersModule() {
                         <p className="text-xs text-muted-foreground">Qty: {item.qty}</p>
                       </div>
                     </div>
-                    <p className="text-sm font-semibold text-foreground">${item.price.toFixed(2)}</p>
+                    <p className="text-sm font-semibold text-foreground">₹{item.price.toFixed(2)}</p>
                   </div>
                 ))}
               </div>
@@ -336,7 +336,7 @@ export function OrdersModule() {
               {/* Total */}
               <div className="flex items-center justify-between p-4 rounded-xl bg-primary/10 mb-6">
                 <span className="font-medium text-foreground">Total</span>
-                <span className="text-xl font-bold text-primary">${selectedOrder.total.toFixed(2)}</span>
+                <span className="text-xl font-bold text-primary">₹{selectedOrder.total.toFixed(2)}</span>
               </div>
 
               {/* Actions */}

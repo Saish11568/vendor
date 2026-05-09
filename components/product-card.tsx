@@ -47,12 +47,12 @@ export function ProductCard({ product }: ProductCardProps) {
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Image Container */}
-        <Link href={`/product/${`}>
+        <Link href={`/product/${product.id}`}>
           <div className="relative aspect-square overflow-hidden rounded-t-xl bg-muted cursor-pointer">
             <div 
               className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
               style={{ 
-                backgroundImage: `url(${)`,
+                backgroundImage: `url(${product.image})`,
                 backgroundColor: '#f4f4f5'
               }}
             />
@@ -75,18 +75,18 @@ export function ProductCard({ product }: ProductCardProps) {
             <Button
               variant="ghost"
               size="icon"
-              className={`absolute top-3 right-3 h-8 w-8 rounded-full transition-all duration-300 shadow-sm ?{
+              className={`absolute top-3 right-3 h-8 w-8 rounded-full transition-all duration-300 shadow-sm ${
                 wishlisted 
                   ? 'bg-red-50 text-red-500 hover:bg-red-100 opacity-100' 
                   : 'bg-white text-muted-foreground hover:bg-white hover:text-foreground'
-              } ${`}
+              } ${isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
               onClick={handleWishlistToggle}
             >
-              <Heart className={`h-4 w-4 ${`} />
+              <Heart className={`h-4 w-4 ${wishlisted ? "fill-current" : ""}`} />
             </Button>
 
             {/* Quick Actions */}
-            <div className={`absolute bottom-3 left-3 right-3 flex gap-2 transition-all duration-300 ${`}>
+            <div className={`absolute bottom-3 left-3 right-3 flex gap-2 transition-all duration-300 ${isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
               <Button
                 className="flex-1 gap-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg shadow-md"
                 onClick={handleAddToCart}
@@ -99,7 +99,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </Link>
 
         {/* Content */}
-        <Link href={`/product/${`}>
+        <Link href={`/product/${product.id}`}>
           <div className="p-4 space-y-2 cursor-pointer">
             <p className="text-xs text-primary font-medium">{product.vendor}</p>
             <h3 className="font-medium text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
@@ -112,7 +112,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 {[...Array(5)].map((_, i) => (
                   <Star 
                     key={i} 
-                    className={`h-3.5 w-3.5 ${`} 
+                    className={`h-3.5 w-3.5 ${i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "text-muted"}`} 
                   />
                 ))}
               </div>
@@ -123,10 +123,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
             {/* Price */}
             <div className="flex items-baseline gap-2 pt-1">
-              <span className="text-lg font-bold text-foreground">${</span>
+              <span className="text-lg font-bold text-foreground">₹{product.price.toLocaleString()}</span>
               {product.originalPrice && (
                 <span className="text-sm text-muted-foreground line-through">
-                  ${
+                  ₹{product.originalPrice.toLocaleString()}
                 </span>
               )}
             </div>

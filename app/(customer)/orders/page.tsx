@@ -39,7 +39,7 @@ export default function OrdersPage() {
   const handleDownloadHistory = () => {
     const csvContent = [
       "Order ID,Date,Status,Total",
-      ...orders.map(o => `${,${,${,?${`)
+      ...orders.map(o => `${o.id},${o.date},${o.status},₹${o.total}`)
     ].join("\n")
     
     const blob = new Blob([csvContent], { type: "text/csv" })
@@ -106,10 +106,10 @@ export default function OrdersPage() {
                 <div className="hidden sm:block h-8 w-px bg-border" />
                 <div>
                   <p className="text-xs text-muted-foreground">Total</p>
-                  <p className="font-medium text-foreground">${</p>
+                  <p className="font-medium text-foreground">₹{order.total.toLocaleString()}</p>
                 </div>
               </div>
-              <span className={`px-3 py-1 text-xs font-medium rounded-full ${`}>
+              <span className={`px-3 py-1 text-xs font-medium rounded-full ${order.statusColor}`}>
                 {order.status}
               </span>
             </div>
@@ -121,14 +121,14 @@ export default function OrdersPage() {
                   <div className="w-16 h-16 rounded-lg bg-muted overflow-hidden flex-shrink-0">
                     <div 
                       className="w-full h-full bg-cover bg-center"
-                      style={{ backgroundImage: `url(${)` }}
+                      style={{ backgroundImage: `url(${item.image})` }}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-foreground truncate">{item.name}</p>
                     <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                   </div>
-                  <p className="font-medium text-foreground">${</p>
+                  <p className="font-medium text-foreground">₹{item.price.toLocaleString()}</p>
                 </div>
               ))}
             </div>

@@ -101,7 +101,7 @@ function SearchContent() {
         </div>
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            {query ? `Results for "${"` : "All Products"}
+            {query ? `Results for "${query}"` : "All Products"}
           </h1>
           <p className="text-sm text-muted-foreground">{filteredProducts.length} products found</p>
         </div>
@@ -109,7 +109,7 @@ function SearchContent() {
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Filters - Desktop Sidebar */}
-        <aside className={`${ lg:block w-full lg:w-64 flex-shrink-0`}>
+        <aside className={`${showFilters ? "block" : "hidden"} lg:block w-full lg:w-64 flex-shrink-0`}>
           <div className="bg-card rounded-xl border border-border p-6 sticky top-24 space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-foreground">Filters</h3>
@@ -167,14 +167,14 @@ function SearchContent() {
                 {[4, 3, 2, 1].map(rating => (
                   <button
                     key={rating}
-                    className={`flex items-center gap-2 w-full px-3 py-1.5 rounded-lg text-sm transition-colors ?{
+                    className={`flex items-center gap-2 w-full px-3 py-1.5 rounded-lg text-sm transition-colors ${
                       minRating === rating ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"
                     }`}
                     onClick={() => setMinRating(minRating === rating ? 0 : rating)}
                   >
                     <div className="flex items-center gap-0.5">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`h-3.5 w-3.5 ${`} />
+                        <Star key={i} className={`h-3.5 w-3.5 ${i < rating ? "fill-yellow-500 text-yellow-500" : "text-muted-foreground"}`} />
                       ))}
                     </div>
                     <span>& Up</span>
@@ -199,7 +199,7 @@ function SearchContent() {
               onClick={() => setShowFilters(!showFilters)}
             >
               <SlidersHorizontal className="h-4 w-4" />
-              Filters {hasActiveFilters && `(${)`}
+              Filters {hasActiveFilters && `(${selectedCategories.length + (minRating > 0 ? 1 : 0)})`}
             </Button>
 
             <div className="flex items-center gap-2 ml-auto">
