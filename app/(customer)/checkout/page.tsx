@@ -110,6 +110,43 @@ export default function CheckoutPage() {
     setOrderPlaced(true)
   }
 
+  const processOrderAfterPayment = (txnId: string) => {
+    const newOrderId = `ORD-${Math.floor(Math.random() * 1000000)}`
+    setOrderId(newOrderId)
+
+    addOrder({
+      id: newOrderId,
+      date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+      status: "Processing",
+      statusColor: "bg-blue-100 text-blue-700",
+      total,
+      items: cart.map(item => ({
+        name: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity,
+        image: item.product.image,
+      })),
+      address,
+      paymentMethod: `MockPay (${txnId.substring(0, 8)})`,
+    })
+
+    clearCart()
+    setOrderPlaced(true)
+  }
+
+  const handleOpenPayment = () => {
+    const width = 500;
+    const height = 700;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+    
+    window.open(
+      `/payment/index.html?amount=${Math.round(total)}&pollId=CHECKOUT&title=NexaShop+Order`,
+      'PaymentGateway',
+      `width=${width},height=${height},left=${left},top=${top}`
+    );
+  }
+
   const formatCardNumber = (value: string) => {
     const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "")
     const matches = v.match(/\d{4,16}/g)
@@ -186,7 +223,18 @@ export default function CheckoutPage() {
     if (cart.length === 0 && !orderPlaced) {
       router.push("/cart")
     }
-  }, [cart.length, orderPlaced, router])
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return
+      
+      if (event.data?.type === 'PAYMENT_SUCCESS') {
+        processOrderAfterPayment(event.data.txnId)
+      }
+    }
+
+    window.addEventListener('message', handleMessage)
+    return () => window.removeEventListener('message', handleMessage)
+  }, [cart.length, orderPlaced, router, total])
 
   if (cart.length === 0 && !orderPlaced) {
     return (
@@ -358,7 +406,7 @@ export default function CheckoutPage() {
                 <Button variant="outline" className="gap-2" onClick={() => setStep(1)}>
                   <ArrowLeft className="h-4 w-4" /> Back
                 </Button>
-                <Button className="gap-2" onClick={() => setStep(3)}>
+                <Button className="gap-2" onClick={handleOpenPayment}>
                   Continue to Payment <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
