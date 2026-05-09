@@ -200,7 +200,7 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {allProducts.slice(8, 16).map((product) => (
+              {getAllProducts().slice(8, 16).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
@@ -262,7 +262,7 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {allProducts.slice(16, 24).map((product) => (
+              {getAllProducts().slice(16, 24).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
@@ -284,7 +284,7 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {allProducts.slice(0, 8).map((product) => (
+              {getAllProducts().slice(0, 8).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>

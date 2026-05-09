@@ -38,10 +38,10 @@ function SearchContent() {
     if (query) {
       const q = query.toLowerCase()
       results = results.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        p.vendor.toLowerCase().includes(q) ||
-        p.category?.toLowerCase().includes(q) ||
-        p.description?.toLowerCase().includes(q)
+        (p.name?.toLowerCase().includes(q) || false) ||
+        (p.vendor?.toLowerCase().includes(q) || false) ||
+        (p.category?.toLowerCase().includes(q) || false) ||
+        (p.description?.toLowerCase().includes(q) || false)
       )
     }
 

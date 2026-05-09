@@ -12,6 +12,10 @@ export async function POST(request: Request) {
   const newProduct = {
     ...data,
     id: Date.now(),
+    vendor: data.vendor || "Nexa Vendor",
+    rating: data.rating || 4.5,
+    reviews: data.reviews || 0,
+    status: data.status || "active",
   };
   db.products.push(newProduct);
 
@@ -20,7 +24,7 @@ export async function POST(request: Request) {
   db.notifications.push({
     id: Date.now().toString(),
     title: "New Product Available!",
-    message: `${newProduct.name} has been added to the marketplace at $${newProduct.price}`,
+    message: `${newProduct.name} has been added to the marketplace by ${newProduct.vendor}`,
     time: new Date().toISOString(),
     type: "promo",
     read: false,

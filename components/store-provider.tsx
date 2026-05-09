@@ -133,7 +133,17 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const vendorIds = new Set(vendorProducts.map(p => p.id))
     // Filter out any static products with conflicting IDs
     const staticFiltered = allProducts.filter(p => !vendorIds.has(p.id))
-    return [...vendorProducts, ...staticFiltered]
+    
+    // Ensure all products have required fields to prevent crashes
+    const sanitizeProduct = (p: Product) => ({
+      ...p,
+      vendor: p.vendor || "Nexa Vendor",
+      rating: p.rating || 0,
+      reviews: p.reviews || 0,
+      image: p.image || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop"
+    })
+
+    return [...vendorProducts.map(sanitizeProduct), ...staticFiltered.map(sanitizeProduct)]
   }, [vendorProducts])
 
   // Refresh vendor products (can be called manually)
