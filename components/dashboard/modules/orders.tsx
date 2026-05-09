@@ -47,19 +47,23 @@ export function OrdersModule() {
     fetch("/api/orders")
       .then((res) => res.json())
       .then((data) => {
-        setOrders(data)
+        if (Array.isArray(data)) {
+          setOrders(data)
+        } else {
+          setOrders([])
+        }
         setLoading(false)
       })
   }, [])
 
   const filteredOrders = orders.filter((o) => {
-    const matchesStatus = filterStatus === "all" || o.status === filterStatus;
-    const matchesPayment = paymentFilter === "all" || o.paymentStatus === paymentFilter;
+    const matchesStatus = filterStatus === "all" || (o.status || "") === filterStatus;
+    const matchesPayment = paymentFilter === "all" || (o.paymentStatus || "") === paymentFilter;
     const searchLower = searchQuery.toLowerCase();
     const matchesSearch = 
-        o.id.toLowerCase().includes(searchLower) ||
-        o.customer.name.toLowerCase().includes(searchLower) ||
-        o.customer.email.toLowerCase().includes(searchLower);
+        (o.id || "").toLowerCase().includes(searchLower) ||
+        (o.customer?.name || "").toLowerCase().includes(searchLower) ||
+        (o.customer?.email || "").toLowerCase().includes(searchLower);
     return matchesStatus && matchesPayment && matchesSearch;
   });
 

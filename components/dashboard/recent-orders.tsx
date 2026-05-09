@@ -17,7 +17,13 @@ export function RecentOrders({ onTabChange }: { onTabChange?: (tab: string) => v
   const [orders, setOrders] = useState<any[]>([])
 
   useEffect(() => {
-    fetch("/api/orders").then(res => res.json()).then(data => setOrders(data.slice(0, 5)))
+    fetch("/api/orders").then(res => res.json()).then(data => {
+      if (Array.isArray(data)) {
+        setOrders(data.slice(0, 5))
+      } else {
+        setOrders([])
+      }
+    })
   }, [])
 
   return (

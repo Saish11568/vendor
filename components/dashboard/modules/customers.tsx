@@ -55,17 +55,21 @@ export function CustomersModule() {
       fetch("/api/customers").then((res) => res.json()),
       fetch("/api/reviews").then((res) => res.json())
     ]).then(([customersData, reviewsData]) => {
-      setCustomers(customersData)
-      setReviews(reviewsData)
+      if (Array.isArray(customersData)) setCustomers(customersData)
+      else setCustomers([])
+      
+      if (Array.isArray(reviewsData)) setReviews(reviewsData)
+      else setReviews([])
+      
       setLoading(false)
     })
   }, [])
 
   const filteredCustomers = customers.filter((c) => {
-    const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.location.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesStatus = statusFilter === "all" || c.status === statusFilter
+    const matchesSearch = (c.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (c.email || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (c.location || "").toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesStatus = statusFilter === "all" || (c.status || "") === statusFilter
     return matchesSearch && matchesStatus
   })
 

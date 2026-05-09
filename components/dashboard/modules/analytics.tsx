@@ -54,12 +54,23 @@ export function AnalyticsModule({ onTabChange }: AnalyticsModuleProps) {
           fetch("/api/flash-sales")
         ])
 
-        const orders = await ordersRes.json()
-        const products = await productsRes.json()
-        const customers = await customersRes.json()
-        const campaigns = await campaignsRes.json()
-        const coupons = await couponsRes.json()
-        const flashSales = await flashRes.json()
+        let orders = await ordersRes.json()
+        if (!Array.isArray(orders)) orders = []
+        
+        let products = await productsRes.json()
+        if (!Array.isArray(products)) products = []
+        
+        let customers = await customersRes.json()
+        if (!Array.isArray(customers)) customers = []
+        
+        let campaigns = await campaignsRes.json()
+        if (!Array.isArray(campaigns)) campaigns = []
+        
+        let coupons = await couponsRes.json()
+        if (!Array.isArray(coupons)) coupons = []
+        
+        let flashSales = await flashRes.json()
+        if (!Array.isArray(flashSales)) flashSales = []
 
         // 1. Calculate Stats
         const totalRev = orders.reduce((acc: number, o: any) => acc + (o.total || 0), 0)

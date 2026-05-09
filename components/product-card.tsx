@@ -117,7 +117,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 ))}
               </div>
               <span className="text-xs text-muted-foreground">
-                ({product.reviews.toLocaleString()})
+                ({(product.reviews || 0).toLocaleString()})
               </span>
             </div>
 

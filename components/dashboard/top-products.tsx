@@ -9,7 +9,13 @@ export function TopProducts({ onTabChange }: { onTabChange?: (tab: string) => vo
   const [products, setProducts] = useState<any[]>([])
 
   useEffect(() => {
-    fetch("/api/products").then(res => res.json()).then(data => setProducts(data.slice(0, 4)))
+    fetch("/api/products").then(res => res.json()).then(data => {
+      if (Array.isArray(data)) {
+        setProducts(data.slice(0, 4))
+      } else {
+        setProducts([])
+      }
+    })
   }, [])
 
   return (

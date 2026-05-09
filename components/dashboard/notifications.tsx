@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { AlertTriangle, Package, ShoppingCart, Star, Bell } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -53,7 +53,35 @@ const initialNotifications = [
 ]
 
 export function Notifications() {
-  const [notifications, setNotifications] = useState(initialNotifications)
+  const [notifications, setNotifications] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch("/api/notifications")
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          const mapped = data.map(n => {
+            let config = { icon: Bell, color: "text-primary", bgColor: "bg-primary/10" }
+            if (n.type === "order") config = { icon: ShoppingCart, color: "text-success", bgColor: "bg-success/10" }
+            if (n.type === "stock") config = { icon: AlertTriangle, color: "text-warning", bgColor: "bg-warning/10" }
+            if (n.type === "review") config = { icon: Star, color: "text-primary", bgColor: "bg-primary/10" }
+            if (n.type === "shipment") config = { icon: Package, color: "text-info", bgColor: "bg-info/10" }
+            
+            return {
+              ...n,
+              icon: config.icon,
+              color: config.color,
+              bgColor: config.bgColor,
+              unread: n.unread !== undefined ? n.unread : !n.read
+            }
+          })
+          setNotifications(mapped)
+        }
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
 
   const unreadCount = notifications.filter(n => n.unread).length
 
@@ -61,7 +89,7 @@ export function Notifications() {
     setNotifications(prev => prev.map(n => ({ ...n, unread: false })))
   }
 
-  const markOneRead = (id: number) => {
+  const markOneRead = (id: any) => {
     setNotifications(prev => prev.map(n => n.id === id ? { ...n, unread: false } : n))
   }
 
@@ -98,7 +126,11 @@ export function Notifications() {
       </div>
       
       <div className="space-y-3">
-        {notifications.map((notification, index) => {
+        {loading ? (
+          <div className="py-8 text-center text-sm text-muted-foreground">Loading notifications...</div>
+        ) : notifications.length === 0 ? (
+          <div className="py-8 text-center text-sm text-muted-foreground">No new notifications</div>
+        ) : notifications.map((notification, index) => {
           const Icon = notification.icon
           
           return (

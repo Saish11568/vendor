@@ -96,8 +96,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const res = await fetch("/api/products")
       if (res.ok) {
         const data = await res.json()
-        const converted = data.map(vendorToProduct)
-        setVendorProducts(converted)
+        if (Array.isArray(data)) {
+          const converted = data.map(vendorToProduct)
+          setVendorProducts(converted)
+        }
       }
     } catch (err) {
       console.error("Failed to fetch vendor products:", err)
@@ -110,7 +112,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const res = await fetch("/api/notifications")
       if (res.ok) {
         const data = await res.json()
-        if (data && data.length > 0) {
+        if (Array.isArray(data) && data.length > 0) {
           // Merge API notifications with local state, avoiding duplicates
           setNotifications(prev => {
             const existingIds = new Set(prev.map(n => n.id))
@@ -240,11 +242,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const getCartTotal = useCallback(() => {
-    return cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+    return cart.reduce((sum, item) => sum + (item.product?.price || 0) * (item.quantity || 1), 0)
   }, [cart])
 
   const getCartCount = useCallback(() => {
-    return cart.reduce((sum, item) => sum + item.quantity, 0)
+    return cart.reduce((sum, item) => sum + (item.quantity || 0), 0)
   }, [cart])
 
   // Wishlist actions
