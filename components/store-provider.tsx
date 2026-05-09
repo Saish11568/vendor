@@ -130,6 +130,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   // Get all products (static + vendor)
   const getAllProducts = useCallback((): Product[] => {
     // Merge static products with vendor products, vendor products appear first as "New Arrivals"
+    // We sort vendor products by ID (timestamp) descending so newest ones appear first
+    const sortedVendorProducts = [...vendorProducts].sort((a, b) => b.id - a.id)
+    
     const vendorIds = new Set(vendorProducts.map(p => p.id))
     // Filter out any static products with conflicting IDs
     const staticFiltered = allProducts.filter(p => !vendorIds.has(p.id))
@@ -143,7 +146,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       image: p.image || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop"
     })
 
-    return [...vendorProducts.map(sanitizeProduct), ...staticFiltered.map(sanitizeProduct)]
+    return [...sortedVendorProducts.map(sanitizeProduct), ...staticFiltered.map(sanitizeProduct)]
   }, [vendorProducts])
 
   // Refresh vendor products (can be called manually)

@@ -72,6 +72,19 @@
       "sku": "NEW-34",
       "status": "active",
       "id": 1778312477016
+    },
+    {
+      "name": "dell g15",
+      "price": 500,
+      "stock": 5,
+      "category": "electronics",
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop",
+      "sku": "NEW-777",
+      "status": "active",
+      "id": 1778313557897,
+      "vendor": "Nexa Vendor",
+      "rating": 4.5,
+      "reviews": 0
     }
   ],
   "orders": [
@@ -420,6 +433,14 @@
       "message": "A vendor has removed a product.",
       "time": "2026-05-09T07:41:28.078Z",
       "type": "alert",
+      "read": false
+    },
+    {
+      "id": "1778313557897",
+      "title": "New Product Available!",
+      "message": "dell g15 has been added to the marketplace by Nexa Vendor",
+      "time": "2026-05-09T07:59:17.897Z",
+      "type": "promo",
       "read": false
     }
   ]
